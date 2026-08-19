@@ -81,7 +81,8 @@
     }
 
     @keyframes float {
-      0%, 100% {
+      0%,
+      100% {
         transform: translateY(0) rotate(-5deg);
       }
 
@@ -635,6 +636,7 @@
 
     <section class="section-heading">
       <h2>Good Food. Great Wine. Happy Memories.</h2>
+
       <p>
         A colourful journey through flavour, culture and connection.
       </p>
@@ -642,12 +644,15 @@
 
     <section class="events">
 
+      <!-- Event 1 -->
       <article class="event-card">
         <div class="event-top">
           <span class="event-number">1</span>
           <span class="event-icon">👨‍🍳</span>
 
-          <div class="event-date">October 25, 2026</div>
+          <div class="event-date">
+            October 25, 2026
+          </div>
 
           <h3 class="event-title">
             Chef’s Table &amp; Culinary Philosophy
@@ -660,7 +665,9 @@
             delicious dishes, culinary stories and plenty of inspiration.
           </p>
 
-          <div class="countdown-label">Countdown to event</div>
+          <div class="countdown-label">
+            Countdown to event
+          </div>
 
           <div
             class="countdown"
@@ -693,12 +700,15 @@
         </div>
       </article>
 
+      <!-- Event 2 -->
       <article class="event-card">
         <div class="event-top">
           <span class="event-number">2</span>
           <span class="event-icon">🍷</span>
 
-          <div class="event-date">February 28, 2027</div>
+          <div class="event-date">
+            February 28, 2027
+          </div>
 
           <h3 class="event-title">
             Wine Tasting &amp; Beverage Masterclass
@@ -711,7 +721,9 @@
             food pairing and the stories behind every glass.
           </p>
 
-          <div class="countdown-label">Countdown to event</div>
+          <div class="countdown-label">
+            Countdown to event
+          </div>
 
           <div
             class="countdown"
@@ -744,12 +756,15 @@
         </div>
       </article>
 
+      <!-- Event 3 -->
       <article class="event-card">
         <div class="event-top">
           <span class="event-number">3</span>
           <span class="event-icon">🧀</span>
 
-          <div class="event-date">June 6, 2027</div>
+          <div class="event-date">
+            June 6, 2027
+          </div>
 
           <h3 class="event-title">
             Food, Culture &amp; Heritage Trail
@@ -762,7 +777,9 @@
             and the cultural stories that make every bite unforgettable.
           </p>
 
-          <div class="countdown-label">Countdown to event</div>
+          <div class="countdown-label">
+            Countdown to event
+          </div>
 
           <div
             class="countdown"
@@ -798,8 +815,12 @@
     </section>
 
     <footer class="footer">
-      <strong>GOURMET &amp; BEVERAGE INDUSTRY CLUB</strong>
+      <strong>
+        GOURMET &amp; BEVERAGE INDUSTRY CLUB
+      </strong>
+
       <br />
+
       CUHK MBA 2026 · Food, wine, friendship and fun
     </footer>
 
@@ -810,69 +831,68 @@
       return String(value).padStart(2, "0");
     }
 
-    function updateCountdowns() {
-      document.querySelectorAll(".countdown").forEach((countdown) => {
-        const targetDate = new Date(
-          countdown.dataset.date
-        ).getTime();
+    function showDateError(countdown, status) {
+      countdown.innerHTML = `
+        <div class="time-box">
+          <span class="time-value">--</span>
+          <span class="time-label">Days</span>
+        </div>
 
-        const difference = targetDate - Date.now();
-        const card = countdown.closest(".event-card");
-        const status = card.querySelector(".event-status");
+        <div class="time-box">
+          <span class="time-value">--</span>
+          <span class="time-label">Hours</span>
+        </div>
 
-        if (difference <= 0) {
-          countdown.innerHTML = `
-            <div class="time-box">
-              <span class="time-value">✓</span>
-              <span class="time-label">Ready</span>
-            </div>
+        <div class="time-box">
+          <span class="time-value">--</span>
+          <span class="time-label">Minutes</span>
+        </div>
 
-            <div class="time-box">
-              <span class="time-value">🍴</span>
-              <span class="time-label">Eat</span>
-            </div>
+        <div class="time-box">
+          <span class="time-value">--</span>
+          <span class="time-label">Seconds</span>
+        </div>
+      `;
 
-            <div class="time-box">
-              <span class="time-value">🍷</span>
-              <span class="time-label">Drink</span>
-            </div>
-
-            <div class="time-box">
-              <span class="time-value">🎉</span>
-              <span class="time-label">Enjoy</span>
-            </div>
-          `;
-
-          status.textContent = "The experience has arrived! 🎊";
-          return;
-        }
-
-        const days = Math.floor(
-          difference / (1000 * 60 * 60 * 24)
-        );
-
-        const hours = Math.floor(
-          (difference % (1000 * 60 * 60 * 24)) /
-          (1000 * 60 * 60)
-        );
-
-        const minutes = Math.floor(
-          (difference % (1000 * 60 * 60)) /
-          (1000 * 60)
-        );
-
-        const seconds = Math.floor(
-          (difference % (1000 * 60)) /
-          1000
-        );
-
-        countdown.querySelector(".days").textContent = pad(days);
-        countdown.querySelector(".hours").textContent = pad(hours);
-        countdown.querySelector(".minutes").textContent = pad(minutes);
-        countdown.querySelector(".seconds").textContent = pad(seconds);
-      });
+      if (status) {
+        status.textContent = "Unable to load the event date.";
+      }
     }
 
-    updateCountdowns();
-    setInterval(updateCountdowns, 1000);
-  </script
+    function showEventStarted(countdown, status) {
+      if (countdown.dataset.finished === "true") {
+        return;
+      }
+
+      countdown.dataset.finished = "true";
+
+      countdown.innerHTML = `
+        <div class="time-box">
+          <span class="time-value">✓</span>
+          <span class="time-label">Ready</span>
+        </div>
+
+        <div class="time-box">
+          <span class="time-value">🍴</span>
+          <span class="time-label">Eat</span>
+        </div>
+
+        <div class="time-box">
+          <span class="time-value">🍷</span>
+          <span class="time-label">Drink</span>
+        </div>
+
+        <div class="time-box">
+          <span class="time-value">🎉</span>
+          <span class="time-label">Enjoy</span>
+        </div>
+      `;
+
+      if (status) {
+        status.textContent = "The experience has arrived! 🎊";
+      }
+    }
+
+    function updateCountdown(countdown) {
+      const dateString = countdown.dataset.date;
+      const ta
