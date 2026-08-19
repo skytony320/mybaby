@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Gourmet &amp; Beverage Industry Club</title>
+
+  <style>
+    :root {
+      --wine: #8f2148;
+      --deep-wine: #531735;
+      --orange: #ff7b35;
+      --yellow: #ffd447;
+      --pink: #ff5d8f;
+      --mint: #75e0c2;
+      --cream: #fffaf0;
+      --text: #3d2031;
+      --muted: #765d68;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 22px;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family:
+        "Trebuchet MS",
+        "Arial Rounded MT Bold",
+        Arial,
+        sans-serif;
+      background:
+        radial-gradient(circle at 8% 12%, #ffd447 0 8%, transparent 8.5%),
+        radial-gradient(circle at 94% 20%, #ff719f 0 10%, transparent 10.5%),
+        radial-gradient(circle at 10% 90%, #75e0c2 0 11%, transparent 11.5%),
+        linear-gradient(135deg, #ffb347 0%, #ff6f91 45%, #9c4dcc 100%);
+    }
+
+    .page {
+      width: min(1180px, 100%);
+      margin: auto;
+    }
+
+    /* Decorative floating food shapes */
+    .decor {
+      position: fixed;
+      z-index: 0;
+      font-size: 3rem;
+      pointer-events: none;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .decor.one {
+      top: 8%;
+      left: 2%;
+    }
+
+    .decor.two {
+      top: 48%;
+      right: 2%;
+      animation-delay: 1s;
+    }
+
+    .decor.three {
+      bottom: 5%;
+      left: 4%;
+      animation-delay: 2s;
+    }
+
+    .decor.four {
+      right: 5%;
+      bottom: 10%;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(6deg);
+      }
+    }
+
+    /* Header */
+    .hero {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      padding: 38px 28px 52px;
+      color: white;
+      text-align: center;
+      border: 5px solid rgba(255, 255, 255, 0.85);
+      border-radius: 34px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(83, 23, 53, 0.98),
+          rgba(143, 33, 72, 0.94) 50%,
+          rgba(255, 123, 53, 0.9)
+        );
+      box-shadow: 0 22px 0 rgba(83, 23, 53, 0.18);
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.18);
+      font-size: 10rem;
+      line-height: 1;
+    }
+
+    .hero::before {
+      content: "🍇";
+      top: 12px;
+      left: 4%;
+      transform: rotate(-15deg);
+    }
+
+    .hero::after {
+      content: "🍓";
+      right: 4%;
+      bottom: -15px;
+      transform: rotate(15deg);
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      color: rgba(255, 212, 71, 0.85);
+      font-size: 1.8rem;
+      pointer-events: none;
+    }
+
+    .sparkles span {
+      position: absolute;
+    }
+
+    .sparkles span:nth-child(1) {
+      top: 20%;
+      left: 24%;
+    }
+
+    .sparkles span:nth-child(2) {
+      top: 35%;
+      right: 24%;
+    }
+
+    .sparkles span:nth-child(3) {
+      bottom: 22%;
+      left: 15%;
+    }
+
+    .brand-row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 27px;
+    }
+
+    .cuhk-logo {
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      padding: 6px;
+      color: white;
+      border: 2px solid white;
+      border-radius: 18px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-divider {
+      width: 2px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .school-name {
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      line-height: 1.5;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .school-name span {
+      display: block;
+      color: var(--yellow);
+      font-size: 1.03rem;
+      letter-spacing: 1.4px;
+    }
+
+    .eyebrow {
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 8px 14px;
+      color: var(--deep-wine);
+      background: var(--yellow);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      color: white;
+      font-size: clamp(2.5rem, 8vw, 5.8rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 0.95;
+      text-shadow: 5px 5px 0 rgba(83, 23, 53, 0.35);
+    }
+
+    .group-name {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+      margin: 22px auto 0;
+      color: var(--yellow);
+      font-size: clamp(1.35rem, 3vw, 2.25rem);
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1.15;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 rgba(83, 23, 53, 0.3);
+    }
+
+    .hero-subtitle {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 19px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.6;
+    }
+
+    .hero-food {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 26px;
+      font-size: 2.5rem;
+    }
+
+    .hero-food span {
+      display: inline-grid;
+      place-items: center;
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 5px 0 rgba(83, 23, 53, 0.2);
+    }
+
+    /* Section heading */
+    .section-heading {
+      position: relative;
+      z-index: 1;
+      margin: 46px 0 23px;
+      color: white;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      font-weight: 900;
+      text-shadow: 3px 3px 0 rgba(83, 23, 53, 0.2);
+    }
+
+    .section-heading p {
+      margin-top: 9px;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 0.98rem;
+    }
+
+    /* Event cards */
+    .events {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .event-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 465px;
+      background: var(--cream);
+      border: 4px solid white;
+      border-radius: 27px;
+      box-shadow: 0 15px 0 rgba(83, 23, 53, 0.18);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .event-card:hover {
+      transform: translateY(-9px) rotate(-1deg);
+      box-shadow: 0 24px 0 rgba(83, 23, 53, 0.2);
+    }
+
+    .event-card:nth-child(2) {
+      transform: rotate(1deg);
+    }
+
+    .event-card:nth-child(2):hover {
+      transform: translateY(-9px) rotate(0deg);
+    }
+
+    .event-card:nth-child(3) {
+      transform: rotate(-1deg);
+    }
+
+    .event-card:nth-child(3):hover {
+      transform: translateY(-9px) rotate(0deg);
+    }
+
+    .event-top {
+      position: relative;
+      padding: 23px 21px 25px;
+      color: white;
+      background:
+        linear-gradient(135deg, var(--deep-wine), var(--wine));
+    }
+
+    .event-card:nth-child(2) .event-top {
+      background: linear-gradient(135deg, #84346e, #d94f82);
+    }
+
+    .event-card:nth-child(3) .event-top {
+      background: linear-gradient(135deg, #cc592b, #f29f35);
+    }
+
+    .event-top::after {
+      position: absolute;
+      right: 14px;
+      bottom: -17px;
+      color: rgba(255, 255, 255, 0.12);
+      font-size: 6rem;
+      line-height: 1;
+    }
+
+    .event-card:nth-child(1) .event-top::after {
+      content: "🍽️";
+    }
+
+    .event-card:nth-child(2) .event-top::after {
+      content: "🍷";
+    }
+
+    .event-card:nth-child(3) .event-top::after {
+      content: "🧀";
+    }
+
+    .event-number {
+      position: relative;
+      z-index: 1;
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 17px;
+      color: var(--deep-wine);
+      background: var(--yellow);
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .event-icon {
+      position: relative;
+      z-index: 1;
+      float: right;
+      font-size: 2.8rem;
+    }
+
+    .event-date {
+      position: relative;
+      z-index: 1;
+      color: #fff3a5;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .event-title {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      color: white;
+      font-size: 1.42rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .event-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 23px 21px 21px;
+    }
+
+    .event-description {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .countdown-label {
+      margin-top: 22px;
+      color: var(--wine);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .time-box {
+      padding: 10px 3px 8px;
+      color: white;
+      background: var(--wine);
+      border-radius: 11px;
+      text-align: center;
+    }
+
+    .event-card:nth-child(2) .time-box {
+      background: #bd4779;
+    }
+
+    .event-card:nth-child(3) .time-box {
+      background: #e36b2f;
+    }
+
+    .time-value {
+      display: block;
+      color: var(--yellow);
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .time-label {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.58rem;
+      font-weight: 700;
+    }
+
+    .event-status {
+      margin-top: auto;
+      padding-top: 18px;
+      color: var(--wine);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    /* Footer */
+    .footer {
+      position: relative;
+      z-index: 1;
+      padding: 42px 0 12px;
+      color: white;
+      font-size: 0.84rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .footer strong {
+      color: var(--yellow);
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 900px) {
+      .events {
+        grid-template-columns: 1fr;
+        max-width: 590px;
+        margin: auto;
+      }
+
+      .event-card,
+      .event-card:nth-child(2),
+      .event-card:nth-child(3) {
+        transform: none;
+      }
+
+      .event-card:hover,
+      .event-card:nth-child(2):hover,
+      .event-card:nth-child(3):hover {
+        transform: translateY(-7px);
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 12px;
+      }
+
+      .hero {
+        padding: 31px 17px 42px;
+        border-radius: 25px;
+      }
+
+      .brand-row {
+        gap: 11px;
+      }
+
+      .cuhk-logo {
+        width: 61px;
+        height: 61px;
+        font-size: 0.62rem;
+      }
+
+      .brand-divider {
+        height: 45px;
+      }
+
+      .school-name {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+      }
+
+      .school-name span {
+        font-size: 0.78rem;
+      }
+
+      .hero-food span {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+      }
+
+      .event-top,
+      .event-content {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+
+      .decor {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="decor one">🍷</div>
+  <div class="decor two">🍕</div>
+  <div class="decor three">🍓</div>
+  <div class="decor four">🧀</div>
+
+  <main class="page">
+
+    <header class="hero">
+      <div class="sparkles">
+        <span>✦</span>
+        <span>✧</span>
+        <span>✦</span>
+      </div>
+
+      <div class="brand-row">
+        <div class="cuhk-logo">
+          CUHK<br />
+          BUSINESS<br />
+          SCHOOL
+        </div>
+
+        <div class="brand-divider"></div>
+
+        <div class="school-name">
+          CUHK MBA 2026
+          <span>GOURMET &amp; BEVERAGE</span>
+        </div>
+      </div>
+
+      <div class="eyebrow">CUHK Business School</div>
+
+      <h1>Eat. Drink. Connect.</h1>
+
+      <p class="group-name">
+        Gourmet &amp; Beverage Industry Club
+      </p>
+
+      <p class="hero-subtitle">
+        Come hungry, leave happy. Join us for delicious discoveries,
+        memorable tastings, joyful conversations and wonderful people.
+      </p>
+
+      <div class="hero-food" aria-label="Food and beverage icons">
+        <span>🍽️</span>
+        <span>🍷</span>
+        <span>🧀</span>
+        <span>🍰</span>
+      </div>
+    </header>
+
+    <section class="section-heading">
+      <h2>Good Food. Great Wine. Happy Memories.</h2>
+      <p>
+        A colourful journey through flavour, culture and connection.
+      </p>
+    </section>
+
+    <section class="events">
+
+      <article class="event-card">
+        <div class="event-top">
+          <span class="event-number">1</span>
+          <span class="event-icon">👨‍🍳</span>
+
+          <div class="event-date">October 25, 2026</div>
+
+          <h3 class="event-title">
+            Chef’s Table &amp; Culinary Philosophy
+          </h3>
+        </div>
+
+        <div class="event-content">
+          <p class="event-description">
+            Enjoy an exciting chef-led dining experience filled with
+            delicious dishes, culinary stories and plenty of inspiration.
+          </p>
+
+          <div class="countdown-label">Countdown to event</div>
+
+          <div
+            class="countdown"
+            data-date="2026-10-25T00:00:00+08:00"
+          >
+            <div class="time-box">
+              <span class="time-value days">00</span>
+              <span class="time-label">Days</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value hours">00</span>
+              <span class="time-label">Hours</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value minutes">00</span>
+              <span class="time-label">Minutes</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value seconds">00</span>
+              <span class="time-label">Seconds</span>
+            </div>
+          </div>
+
+          <div class="event-status">
+            Bring your appetite! 🍴
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-top">
+          <span class="event-number">2</span>
+          <span class="event-icon">🍷</span>
+
+          <div class="event-date">February 28, 2027</div>
+
+          <h3 class="event-title">
+            Wine Tasting &amp; Beverage Masterclass
+          </h3>
+        </div>
+
+        <div class="event-content">
+          <p class="event-description">
+            Sip, swirl and smile as we explore wine, creative beverages,
+            food pairing and the stories behind every glass.
+          </p>
+
+          <div class="countdown-label">Countdown to event</div>
+
+          <div
+            class="countdown"
+            data-date="2027-02-28T00:00:00+08:00"
+          >
+            <div class="time-box">
+              <span class="time-value days">00</span>
+              <span class="time-label">Days</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value hours">00</span>
+              <span class="time-label">Hours</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value minutes">00</span>
+              <span class="time-label">Minutes</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value seconds">00</span>
+              <span class="time-label">Seconds</span>
+            </div>
+          </div>
+
+          <div class="event-status">
+            Cheers to new discoveries! 🥂
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-top">
+          <span class="event-number">3</span>
+          <span class="event-icon">🧀</span>
+
+          <div class="event-date">June 6, 2027</div>
+
+          <h3 class="event-title">
+            Food, Culture &amp; Heritage Trail
+          </h3>
+        </div>
+
+        <div class="event-content">
+          <p class="event-description">
+            Discover local flavours, hidden food gems, colourful markets
+            and the cultural stories that make every bite unforgettable.
+          </p>
+
+          <div class="countdown-label">Countdown to event</div>
+
+          <div
+            class="countdown"
+            data-date="2027-06-06T00:00:00+08:00"
+          >
+            <div class="time-box">
+              <span class="time-value days">00</span>
+              <span class="time-label">Days</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value hours">00</span>
+              <span class="time-label">Hours</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value minutes">00</span>
+              <span class="time-label">Minutes</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value seconds">00</span>
+              <span class="time-label">Seconds</span>
+            </div>
+          </div>
+
+          <div class="event-status">
+            Taste the adventure! 🌈
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <footer class="footer">
+      <strong>GOURMET &amp; BEVERAGE INDUSTRY CLUB</strong>
+      <br />
+      CUHK MBA 2026 · Food, wine, friendship and fun
+    </footer>
+
+  </main>
+
+  <script>
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function updateCountdowns() {
+      document.querySelectorAll(".countdown").forEach((countdown) => {
+        const targetDate = new Date(
+          countdown.dataset.date
+        ).getTime();
+
+        const difference = targetDate - Date.now();
+        const card = countdown.closest(".event-card");
+        const status = card.querySelector(".event-status");
+
+        if (difference <= 0) {
+          countdown.innerHTML = `
+            <div class="time-box">
+              <span class="time-value">✓</span>
+              <span class="time-label">Ready</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value">🍴</span>
+              <span class="time-label">Eat</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value">🍷</span>
+              <span class="time-label">Drink</span>
+            </div>
+
+            <div class="time-box">
+              <span class="time-value">🎉</span>
+              <span class="time-label">Enjoy</span>
+            </div>
+          `;
+
+          status.textContent = "The experience has arrived! 🎊";
+          return;
+        }
+
+        const days = Math.floor(
+          difference / (1000 * 60 * 60 * 24)
+        );
+
+        const hours = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) /
+          (1000 * 60 * 60)
+        );
+
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) /
+          (1000 * 60)
+        );
+
+        const seconds = Math.floor(
+          (difference % (1000 * 60)) /
+          1000
+        );
+
+        countdown.querySelector(".days").textContent = pad(days);
+        countdown.querySelector(".hours").textContent = pad(hours);
+        countdown.querySelector(".minutes").textContent = pad(minutes);
+        countdown.querySelector(".seconds").textContent = pad(seconds);
+      });
+    }
+
+    updateCountdowns();
+    setInterval(updateCountdowns, 1000);
+  </script
