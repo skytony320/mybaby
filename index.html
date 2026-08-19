@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
+
+  <title>寶寶即將出生了</title>
+
+  <style>
+    :root {
+      --blue: #5eb7dc;
+      --dark-blue: #397fa8;
+      --pink: #ffd8e8;
+      --dark-pink: #e77fa7;
+      --yellow: #ffe58a;
+      --purple: #dcccff;
+      --text: #536875;
+      --muted: #8a9ba3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      min-height: 100svh;
+      color: var(--text);
+      background: linear-gradient(
+        180deg,
+        #aee8ff 0%,
+        #ddf8ff 54%,
+        #fff5d8 100%
+      );
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "PingFang HK",
+        "Microsoft JhengHei",
+        sans-serif;
+    }
+
+    body::before {
+      content: "☁️";
+      position: fixed;
+      top: 18px;
+      left: -10px;
+      z-index: -1;
+      opacity: 0.55;
+      font-size: 5rem;
+    }
+
+    body::after {
+      content: "☁️";
+      position: fixed;
+      top: 115px;
+      right: -20px;
+      z-index: -1;
+      opacity: 0.45;
+      font-size: 4.5rem;
+    }
+
+    .page {
+      width: min(100%, 480px);
+      height: 100svh;
+      margin: 0 auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .decoration {
+      position: relative;
+      flex: none;
+      height: 28px;
+    }
+
+    .sun {
+      position: absolute;
+      top: -3px;
+      right: 10px;
+      font-size: 2rem;
+    }
+
+    .star {
+      position: absolute;
+      color: #ffffff;
+      font-size: 1.1rem;
+    }
+
+    .star.one {
+      top: 2px;
+      left: 18px;
+    }
+
+    .star.two {
+      top: 13px;
+      left: 80px;
+      font-size: 0.8rem;
+    }
+
+    .star.three {
+      top: 4px;
+      right: 75px;
+      font-size: 0.8rem;
+    }
+
+    .title {
+      flex: none;
+      color: #ffffff;
+      font-size: clamp(1.9rem, 8vw, 2.7rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 1px;
+      text-align: center;
+      text-shadow: 0 3px 0 rgba(62, 149, 186, 0.25);
+    }
+
+    .subtitle {
+      flex: none;
+      margin-top: 4px;
+      color: var(--dark-blue);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .card {
+      flex: none;
+      margin-top: 10px;
+      padding: 13px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      border-radius: 22px;
+      box-shadow: 0 5px 0 rgba(76, 155, 182, 0.12);
+    }
+
+    .clock-card {
+      padding: 13px 10px 12px;
+      background: linear-gradient(145deg, #ffffff, #effbff);
+      text-align: center;
+    }
+
+    .clock-label {
+      color: var(--blue);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    #date {
+      margin-top: 3px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    #clock {
+      margin-top: 2px;
+      color: var(--dark-blue);
+      font-size: clamp(2.8rem, 14vw, 4.4rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .weather-card {
+      background: linear-gradient(145deg, #ffffff, #f4fffc);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 9px;
+      color: var(--dark-blue);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .section-icon {
+      display: grid;
+      place-items: center;
+      width: 29px;
+      height: 29px;
+      background: var(--yellow);
+      border-radius: 50%;
+      font-size: 1.1rem;
+    }
+
+    .weather-content {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px;
+      background: #e6f8ff;
+      border: 2px solid #c5edfb;
+      border-radius: 17px;
+    }
+
+    #weatherIcon {
+      font-size: 2.1rem;
+    }
+
+    #temperature {
+      color: var(--dark-blue);
+      font-size: 2.1rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .weather-unit {
+      color: var(--dark-blue);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .weather-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .weather-info div {
+      padding: 9px 5px;
+      color: var(--muted);
+      background: #fff8df;
+      border: 2px solid #ffe9ad;
+      border-radius: 14px;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+
+    .weather-info strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+
+    #weatherUpdate {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.62rem;
+      text-align: center;
+    }
+
+    .countdown-card {
+      padding: 15px 12px 13px;
+      background: linear-gradient(145deg, #fff3f8, #f5f0ff);
+      border-color: #ffd9e8;
+    }
+
+    .countdown-title {
+      margin-bottom: 11px;
+      color: var(--dark-pink);
+      font-size: clamp(1.35rem, 6vw, 1.8rem);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .time-box {
+      padding: 9px 2px 7px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid var(--purple);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .time-value {
+      color: #886bc0;
+      font-size: clamp(1.55rem, 8vw, 2.35rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .time-label {
+      margin-top: 5px;
+      color: var(--dark-pink);
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+
+    .target-date {
+      margin-top: 10px;
+      color: #886bc0;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.66rem;
+      text-align: center;
+    }
+
+    .footer {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 2px;
+      color: rgba(57, 127, 168, 0.7);
+      font-size: 0.65rem;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="decoration">
+      <div class="sun">☀️</div>
+      <div class="star one">✦</div>
+      <div class="star two">✧</div>
+      <div class="star three">✦</div>
+    </div>
+
+    <h1 class="title">寶寶即將出生了</h1>
+    <div class="subtitle">每天都期待與你見面呀！💕</div>
+
+    <!-- 日期及時間 -->
+    <section class="card clock-card">
+      <div class="clock-label">TODAY IS A LOVELY DAY</div>
+      <div id="date">載入中...</div>
+      <div id="clock">00:00:00</div>
+    </section>
+
+    <!-- 簡單天氣 -->
+    <section class="card weather-card">
+      <div class="section-title">
+        <div class="section-icon">🌤️</div>
+        <div>今日香港天氣</div>
+      </div>
+
+      <div class="weather-content">
+        <div class="weather-main">
+          <div id="weatherIcon">🌤️</div>
+          <div>
+            <span id="temperature">--</span>
+            <span class="weather-unit">°C</span>
+          </div>
+        </div>
+
+        <div class="weather-info">
+          <div>
+            💧 濕度
+            <strong><span id="humidity">--</span>%</strong>
+          </div>
+
+          <div>
+            🌡️ 地點
+            <strong>香港</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="weatherUpdate">天氣資料載入中...</div>
+    </section>
+
+    <!-- BB 出世倒數 -->
+    <section class="card countdown-card">
+      <div class="countdown-title">👶 BB 出世倒數 🍼</div>
+
+      <div class="countdown-grid">
+        <div class="time-box">
+          <div class="time-value" id="days">00</div>
+          <div class="time-label">日</div>
+        </div>
+
+        <div class="time-box">
+          <div class="time-value" id="hours">00</div>
+          <div class="time-label">小時</div>
+        </div>
+
+        <div class="time-box">
+          <div class="time-value" id="minutes">00</div>
+          <div class="time-label">分鐘</div>
+        </div>
+
+        <div class="time-box">
+          <div class="time-value" id="seconds">00</div>
+          <div class="time-label">秒</div>
+        </div>
+      </div>
+
+      <!-- 畫面只顯示日期，不顯示 13:30 -->
+      <div class="target-date">
+        預產期：2026年8月26日
+      </div>
+
+      <div class="note">
+        BB，我哋準備好見你喇！🌈
+      </div>
+    </section>
+
+    <footer class="footer">
+      Made with love for our little baby 💕
+    </footer>
+  </main>
+
+  <script>
+    const HKO_API =
+      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php";
+
+    /*
+      預產期時間保留在程式原始碼內，
+      但不會在畫面顯示 13:30。
+    */
+    const targetDate = new Date(
+      "2026-08-26T13:30:00+08:00"
+    ).getTime();
+
+    const weekDays = [
+      "星期日",
+      "星期一",
+      "星期二",
+      "星期三",
+      "星期四",
+      "星期五",
+      "星期六"
+    ];
+
+    function pad(number) {
+      return String(number).padStart(2, "0");
+    }
+
+    function updateClock() {
+      const now = new Date();
+
+      document.getElementById("date").textContent =
+        `${now.getFullYear()}年` +
+        `${now.getMonth() + 1}月` +
+        `${now.getDate()}日 ` +
+        `${weekDays[now.getDay()]}`;
+
+      document.getElementById("clock").textContent =
+        `${pad(now.getHours())}:` +
+        `${pad(now.getMinutes())}:` +
+        `${pad(now.getSeconds())}`;
+    }
+
+    function updateCountdown() {
+      const difference = targetDate - Date.now();
+
+      if (difference <= 0) {
+        document.querySelector(".countdown-title").textContent =
+          "🎉 BB 已經出世啦！";
+
+        ["days", "hours", "minutes", "seconds"].forEach((id) => {
+          document.getElementById(id).textContent = "00";
+        });
+
+        return;
+      }
+
+      const days = Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+      );
+
+      const hours = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+      );
+
+      const minutes = Math.floor(
+        (difference % (1000 * 60 * 60)) /
+        (1000 * 60)
+      );
+
+      const seconds = Math.floor(
+        (difference % (1000 * 60)) /
+        1000
+      );
+
+      document.getElementById("days").textContent = pad(days);
+      document.getElementById("hours").textContent = pad(hours);
+      document.getElementById("minutes").textContent = pad(minutes);
+      document.getElementById("seconds").textContent = pad(seconds);
+    }
+
+    function getWeatherIcon(iconCode) {
+      const icons = {
+        50: "☀️",
+        51: "🌤️",
+        52: "🌤️",
+        53: "🌦️",
+        54: "🌦️",
+        60: "🌧️",
+        61: "🌧️",
+        62: "⛈️",
+        63: "⛈️",
+        64: "🌧️",
+        65: "🌧️",
+        70: "🌫️",
+        71: "🌫️",
+        72: "🌫️",
+        80: "🌪️",
+        81: "🌪️",
+        82: "🌪️",
+        90: "🌩️"
+      };
+
+      return icons[iconCode] || "🌤️";
+    }
+
+    async function loadWeather() {
+      try {
+        const response = await fetch(
+          `${HKO_API}?dataType=rhrread&lang=tc`,
+          {
+            cache: "no-store"
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Weather request failed");
+        }
+
+        const data = await response.json();
+
+        const temperatureData =
+          data.temperature?.data || [];
+
+        const humidityData =
+          data.humidity?.data || [];
+
+        const hongKongTemperature =
+          temperatureData.find(
+            item => item.place === "香港天文台"
+          ) || temperatureData[0];
+
+        const hongKongHumidity =
+          humidityData.find(
+            item => item.place === "香港天文台"
+          ) || humidityData[0];
+
+        document.getElementById("temperature").textContent =
+          hongKongTemperature?.value ?? "--";
+
+        document.getElementById("humidity").textContent =
+          hongKongHumidity?.value ?? "--";
+
+        document.getElementById("weatherIcon").textContent =
+          getWeatherIcon(data.icon?.[0]);
+
+        if (data.updateTime) {
+          const updateTime = new Date(data.updateTime);
+
+          document.getElementById("weatherUpdate").textContent =
+            `香港天文台更新：${updateTime.toLocaleTimeString(
+              "zh-HK",
+              {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+              }
+            )}`;
+        }
+      } catch (error) {
+        console.error(error);
+
+        document.getElementById("weatherUpdate").textContent =
+          "天氣資料暫時未能載入";
+      }
+    }
+
+    function updatePage() {
+      updateClock();
+      updateCountdown();
+    }
+
+    updatePage();
+    loadWeather();
+
+    setInterval(updatePage, 1000);
+
+    // 每 30 分鐘更新一次天氣
+    setInterval(loadWeather, 30 * 60 * 1000);
+  </script>
+</body>
+</html>
