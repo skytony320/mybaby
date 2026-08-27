@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Chloe 的快樂成長樂園</title>
+
+  <style>
+    :root {
+      --pink: #ff8ebc;
+      --deep-pink: #ec5796;
+      --soft-pink: #ffe2ee;
+      --yellow: #ffda68;
+      --blue: #9fe5ff;
+      --purple: #b9a0ff;
+      --green: #b8eca4;
+      --orange: #ffb27b;
+      --ink: #725b69;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+      background:
+        linear-gradient(
+          180deg,
+          #ffd3e1 0%,
+          #fff0f6 35%,
+          #e5f9ff 100%
+        );
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      content: "";
+      background:
+        radial-gradient(
+          circle at 10% 12%,
+          rgba(255, 255, 255, 0.95) 0 8px,
+          transparent 9px
+        ),
+        radial-gradient(
+          circle at 85% 17%,
+          rgba(255, 255, 255, 0.9) 0 6px,
+          transparent 7px
+        ),
+        radial-gradient(
+          circle at 18% 78%,
+          rgba(255, 255, 255, 0.8) 0 7px,
+          transparent 8px
+        ),
+        radial-gradient(
+          circle at 78% 80%,
+          rgba(255, 255, 255, 0.8) 0 5px,
+          transparent 6px
+        );
+    }
+
+    body::after {
+      position: fixed;
+      right: -120px;
+      bottom: -150px;
+      z-index: -1;
+      width: 420px;
+      height: 420px;
+      content: "";
+      background: rgba(184, 236, 164, 0.38);
+      border-radius: 50%;
+      filter: blur(5px);
+    }
+
+    .decor {
+      position: fixed;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .sun {
+      top: 25px;
+      right: 7%;
+      font-size: 4.6rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .cloud-left {
+      top: 75px;
+      left: 4%;
+      font-size: 4.4rem;
+      opacity: 0.8;
+      animation: cloudMove 9s ease-in-out infinite;
+    }
+
+    .cloud-right {
+      top: 275px;
+      right: 3%;
+      font-size: 3.2rem;
+      opacity: 0.72;
+      animation: cloudMove 10s ease-in-out infinite reverse;
+    }
+
+    .star-one {
+      top: 190px;
+      left: 15%;
+      color: #ffbd32;
+      font-size: 2rem;
+      animation: twinkle 1.8s ease-in-out infinite;
+    }
+
+    .star-two {
+      top: 420px;
+      right: 15%;
+      color: #a68cff;
+      font-size: 1.7rem;
+      animation: twinkle 2.2s ease-in-out infinite reverse;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 30px));
+      margin: auto;
+      padding: 38px 0 45px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      align-items: center;
+      gap: 42px;
+      margin-bottom: 38px;
+    }
+
+    .hero-copy {
+      padding: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 9px 18px;
+      color: #9b5376;
+      font-size: 0.9rem;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.8);
+      border: 3px solid white;
+      border-radius: 999px;
+      box-shadow: 0 6px 0 rgba(218, 143, 177, 0.22);
+      transform: rotate(-3deg);
+    }
+
+    h1 {
+      color: var(--deep-pink);
+      font-size: clamp(2.5rem, 6vw, 5.1rem);
+      font-weight: 1000;
+      line-height: 1.12;
+      letter-spacing: 0.04em;
+      text-shadow:
+        3px 3px 0 white,
+        7px 7px 0 rgba(255, 160, 198, 0.45);
+      animation: titleBounce 3s ease-in-out infinite;
+    }
+
+    .hero-copy p {
+      max-width: 470px;
+      margin-top: 18px;
+      color: #806977;
+      font-size: 1.08rem;
+      font-weight: 800;
+      line-height: 1.8;
+    }
+
+    .hero-image-wrap {
+      position: relative;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 5px solid white;
+      border-radius: 40px;
+      box-shadow:
+        0 10px 0 rgba(224, 135, 174, 0.22),
+        0 25px 45px rgba(155, 115, 157, 0.2);
+      transform: rotate(1.5deg);
+      animation: imageFloat 4s ease-in-out infinite;
+    }
+
+    .hero-image-wrap::before {
+      position: absolute;
+      top: -23px;
+      left: 35px;
+      content: "💕";
+      font-size: 2.3rem;
+      transform: rotate(-14deg);
+    }
+
+    .hero-image-wrap::after {
+      position: absolute;
+      right: 25px;
+      bottom: -20px;
+      content: "🌸";
+      font-size: 2.4rem;
+      transform: rotate(15deg);
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 29px;
+    }
+
+    .hero-caption {
+      position: absolute;
+      right: 25px;
+      bottom: 24px;
+      left: 25px;
+      padding: 10px 14px;
+      color: #80546d;
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.78);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 390px;
+      padding: 30px 21px 78px;
+      overflow: hidden;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.88);
+      border: 5px solid white;
+      border-radius: 34px;
+      box-shadow:
+        0 9px 0 rgba(203, 151, 181, 0.2),
+        0 20px 38px rgba(111, 160, 185, 0.17);
+      transition: 0.25s ease;
+    }
+
+    .card:nth-child(1) {
+      background: linear-gradient(145deg, #fff 0%, #ffe2ef 100%);
+      transform: rotate(-1deg);
+    }
+
+    .card:nth-child(2) {
+      background: linear-gradient(145deg, #fff 0%, #fff4c9 100%);
+      transform: rotate(1deg);
+    }
+
+    .card:nth-child(3) {
+      background: linear-gradient(145deg, #fff 0%, #e0f7ff 100%);
+      transform: rotate(-0.7deg);
+    }
+
+    .card:hover {
+      z-index: 2;
+      transform: translateY(-10px) rotate(0deg);
+      box-shadow:
+        0 12px 0 rgba(203, 151, 181, 0.2),
+        0 28px 45px rgba(111, 160, 185, 0.25);
+    }
+
+    .card::before {
+      position: absolute;
+      top: -70px;
+      right: -65px;
+      width: 170px;
+      height: 170px;
+      content: "";
+      background: rgba(255, 218, 104, 0.35);
+      border-radius: 50%;
+    }
+
+    .card::after {
+      position: absolute;
+      bottom: -90px;
+      left: -70px;
+      width: 190px;
+      height: 190px;
+      content: "";
+      background: rgba(159, 229, 255, 0.35);
+      border-radius: 50%;
+    }
+
+    .sticker {
+      position: absolute;
+      z-index: 2;
+      font-size: 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .sticker.left {
+      top: 12px;
+      left: 15px;
+    }
+
+    .sticker.right {
+      right: 15px;
+      bottom: 12px;
+      animation-delay: 0.8s;
+    }
+
+    .card h2 {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 18px;
+      color: var(--deep-pink);
+      font-size: 1.35rem;
+      font-weight: 1000;
+    }
+
+    .card h2 span {
+      display: inline-block;
+      margin-right: 5px;
+      animation: wiggle 2.5s ease-in-out infinite;
+    }
+
+    .event-date,
+    .label,
+    .exact-age,
+    .wish {
+      position: relative;
+      z-index: 1;
+    }
+
+    .event-date {
+      min-height: 53px;
+      color: #896e7d;
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.7;
+    }
+
+    .label {
+      margin-top: 21px;
+      color: #987786;
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    .age-display {
+      margin: 14px 0 8px;
+      color: var(--deep-pink);
+      font-size: clamp(1.45rem, 3vw, 2.1rem);
+      font-weight: 1000;
+      line-height: 1.4;
+    }
+
+    .exact-age {
+      min-height: 38px;
+      color: #806676;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.7;
+    }
+
+    .countdown {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .time-box {
+      padding: 13px 3px 10px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 3px solid rgba(255, 255, 255, 0.95);
+      border-radius: 18px;
+      box-shadow: 0 5px 0 rgba(208, 164, 186, 0.18);
+    }
+
+    .time-value {
+      display: block;
+      color: var(--deep-pink);
+      font-size: clamp(1.1rem, 3vw, 1.75rem);
+      font-weight: 1000;
+    }
+
+    .time-label {
+      display: block;
+      margin-top: 5px;
+      color: #987b88;
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+
+    .wish {
+      position: absolute;
+      right: 15px;
+      bottom: 23px;
+      left: 15px;
+      color: #a46581;
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    footer {
+      margin-top: 34px;
+      color: #806875;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    footer strong {
+      color: var(--deep-pink);
+      font-size: 1.05rem;
+    }
+
+    @keyframes titleBounce {
+      0%, 100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(-7px) rotate(1deg);
+      }
+    }
+
+    @keyframes imageFloat {
+      0%, 100% {
+        transform: rotate(1.5deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-1deg) translateY(-8px);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(5deg);
+      }
+    }
+
+    @keyframes cloudMove {
+      0%, 100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(20px);
+      }
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(0.8) rotate(0);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.3) rotate(20deg);
+      }
+    }
+
+    @keyframes wiggle {
+      0%, 100% {
+        transform: rotate(0);
+      }
+
+      25% {
+        transform: rotate(-10deg);
+      }
+
+      75% {
+        transform: rotate(10deg);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .hero-copy {
+        padding: 10px;
+        text-align: center;
+      }
+
+      .hero-copy p {
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .card:nth-child(3) {
+        grid-column: 1 / -1;
+        width: min(560px, 100%);
+        margin: auto;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 20px, 560px);
+        padding-top: 25px;
+      }
+
+      .sun {
+        top: 10px;
+        right: 2%;
+        font-size: 3rem;
+      }
+
+      .cloud-left {
+        top: 80px;
+        left: -15px;
+        font-size: 3rem;
+      }
+
+      .cloud-right {
+        top: 230px;
+        right: -18px;
+        font-size: 2.5rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-copy p {
+        font-size: 0.95rem;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .card:nth-child(1),
+      .card:nth-child(2),
+      .card:nth-child(3) {
+        grid-column: auto;
+        min-height: 370px;
+        transform: none;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="decor sun">☀️</div>
+  <div class="decor cloud-left">☁️</div>
+  <div class="decor cloud-right">☁️</div>
+  <div class="decor star-one">✦</div>
+  <div class="decor star-two">✦</div>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="badge">✨ Welcome to Chloe's Happy World ✨</div>
+
+        <h1>
+          Chloe 的<br />
+          快樂成長樂園
+        </h1>
+
+        <p>
+          每一秒都在長大，每一天都值得慶祝。
+          <br />
+          一起用可愛、粉紅和滿滿的幸福，
+          記錄 Chloe 的成長吧！🌷
+        </p>
+      </div>
+
+      <div class="hero-image-wrap">
+        <img
+          class="hero-image"
+          src="https://cdn.hk01.com/di/media/images/dw/20250616/1011315141892902912594281.jpeg/-qk3UxGVgSTBzTTn1avz7-YaFpGA69a8zG2Z4MxtmeA?v=w960r16_9"
+          alt="三隻可愛角色一起開心玩耍的插畫"
+        />
+
+        <div class="hero-caption">
+          一起笑，一起玩，一起長大 💕
+        </div>
+      </div>
+    </section>
+
+    <section class="cards">
+      <article class="card">
+        <div class="sticker left">💖</div>
+        <div class="sticker right">🌼</div>
+
+        <h2>
+          <span>👶</span>
+          Chloe 現在幾歲？
+        </h2>
+
+        <div class="event-date">
+          出生日期：
+          <br />
+          2026年8月26日
+        </div>
+
+        <div class="label">
+          Chloe 現在的年齡
+        </div>
+
+        <div id="ageDisplay" class="age-display">
+          計算中...
+        </div>
+
+        <div id="exactAge" class="exact-age">
+          正在計算每一個珍貴的秒數...
+        </div>
+
+        <div class="wish">
+          今天也要笑咪咪！😊🌸
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="sticker left">🎈</div>
+        <div class="sticker right">🎂</div>
+
+        <h2>
+          <span>🎂</span>
+          距離一歲生日
+        </h2>
+
+        <div class="event-date">
+          Chloe 的一歲生日：
+          <br />
+          2027年8月26日
+        </div>
+
+        <div id="oneYearLabel" class="label">
+          距離 Chloe 一歲還有
+        </div>
+
+        <div class="countdown">
+          <div class="time-box">
+            <span id="oneYearDays" class="time-value">00</span>
+            <span class="time-label">天</span>
+          </div>
+
+          <div class="time-box">
+            <span id="oneYearHours" class="time-value">00</span>
+            <span class="time-label">小時</span>
+          </div>
+
+          <div class="time-box">
+            <span id="oneYearMinutes" class="time-value">00</span>
+            <span class="time-label">分鐘</span>
+          </div>
+
+          <div class="time-box">
+            <span id="oneYearSeconds" class="time-value">00</span>
+            <span class="time-label">秒</span>
+          </div>
+        </div>
+
+        <div class="wish">
+          生日蛋糕在等你喔！🧁🎉
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="sticker left">🌈</div>
+        <div class="sticker right">🎒</div>
+
+        <h2>
+          <span>🎒</span>
+          距離三歲入學
+        </h2>
+
+        <div class="event-date">
+          Chloe 三歲的日子：
+          <br />
+          2029年8月26日
+        </div>
+
+        <div id="threeYearLabel" class="label">
+          距離三歲讀幼稚園還有
+        </div>
+
+        <div class="countdown">
+          <div class="time-box">
+            <span id="threeYearDays" class="time-value">00</span>
+            <span class="time-label">天</span>
+          </div>
+
+          <div class="time-box">
+            <span id="threeYearHours" class="time-value">00</span>
+            <span class="time-label">小時</span>
+          </div>
+
+          <div class="time-box">
+            <span id="threeYearMinutes" class="time-value">00</span>
+            <span class="time-label">分鐘</span>
+          </div>
+
+          <div class="time-box">
+            <span id="threeYearSeconds" class="time-value">00</span>
+            <span class="time-label">秒</span>
+          </div>
+        </div>
+
+        <div class="wish">
+          背起小書包，一起去玩耍！🌈🎒
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <strong>Chloe，慢慢長大就好。</strong>
+      <br />
+      每一秒，都是可愛又珍貴的回憶 💕
+    </footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    /*
+     * 畫面只顯示出生日期。
+     * 出生時間保留在 JavaScript 原始碼中，
+     * 不會在頁面上顯示，但倒數仍然會繼續運作。
+     */
+
+    const birthDate = new Date(
+      2026,
+      7,
+      26,
+      13,
+      39,
+      0
+    );
+
+    const firstBirthday = new Date(
+      2027,
+      7,
+      26,
+      13,
+      39,
+      0
+    );
+
+    const thirdBirthday = new Date(
+      2029,
+      7,
+      26,
+      13,
+      39,
+      0
+    );
+
+    const SECOND = 1000;
+    const MINUTE = SECOND * 60;
+    const HOUR = MINUTE * 60;
+    const DAY = HOUR * 24;
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function calculateAge(startDate, currentDate) {
+      let years =
+        currentDate.getFullYear() -
+        startDate.getFullYear();
+
+      let months =
+        currentDate.getMonth() -
+        startDate.getMonth();
+
+      let days =
+        currentDate.getDate() -
+        startDate.getDate();
+
+      let hours =
+        currentDate.getHours() -
+        startDate.getHours();
+
+      let minutes =
+        currentDate.getMinutes() -
+        startDate.getMinutes();
+
+      let seconds =
+        currentDate.getSeconds() -
+        startDate.getSeconds();
+
+      if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+      }
+
+      if (minutes < 0) {
+        minutes += 60;
+        hours--;
+      }
+
+      if (hours < 0) {
+        hours += 24;
+        days--;
+      }
+
+      if (days < 0) {
+        months--;
+
+        const previousMonthDays = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          0
+        ).getDate();
+
+        days += previousMonthDays;
+      }
+
+      if (months < 0) {
+        months += 12;
+        years--;
+      }
+
+      return {
+        years,
+        months,
+        days,
+        hours,
+        minutes,
+        seconds
+      };
+    }
+
+    function updateAge() {
+      const now = new Date();
+      const ageDisplay = document.getElementById("ageDisplay");
+      const exactAge = document.getElementById("exactAge");
+
+      if (now < birthDate) {
+        ageDisplay.textContent = "還沒出生";
+        exactAge.textContent = "期待 Chloe 的到來...";
+        return;
+      }
+
+      const age = calculateAge(birthDate, now);
+
+      ageDisplay.textContent =
+        `${age.years} 歲 · ` +
+        `${age.months} 個月 · ` +
+        `${age.days} 天`;
+
+      exactAge.textContent =
+        `${pad(age.hours)} 小時 · ` +
+        `${pad(age.minutes)} 分鐘 · ` +
+        `${pad(age.seconds)} 秒`;
+    }
+
+    function updateCountdown(
+      targetDate,
+      daysId,
+      hoursId,
+      minutesId,
+      secondsId,
+      labelId,
+      activeText,
+      completedText
+    ) {
+      const now = new Date();
+      let difference = targetDate - now;
+
+      const days = document.getElementById(daysId);
+      const hours = document.getElementById(hoursId);
+      const minutes = document.getElementById(minutesId);
+      const seconds = document.getElementById(secondsId);
+      const label = document.getElementById(labelId);
+
+      if (difference <= 0) {
+        days.textContent = "00";
+        hours.textContent = "00";
+        minutes.textContent = "00";
+        seconds.textContent = "00";
+        label.textContent = completedText;
+        return;
+      }
+
+      const dayValue = Math.floor(difference / DAY);
+      difference %= DAY;
+
+      const hourValue = Math.floor(difference / HOUR);
+      difference %= HOUR;
+
+      const minuteValue = Math.floor(difference / MINUTE);
+      difference %= MINUTE;
+
+      const secondValue = Math.floor(difference / SECOND);
+
+      days.textContent = dayValue;
+      hours.textContent = pad(hourValue);
+      minutes.textContent = pad(minuteValue);
+      seconds.textContent = pad(secondValue);
+      label.textContent = activeText;
+    }
+
+    function updatePage() {
+      updateAge();
+
+      updateCountdown(
+        firstBirthday,
+        "oneYearDays",
+        "oneYearHours",
+        "oneYearMinutes",
+        "oneYearSeconds",
+        "oneYearLabel",
+        "距離 Chloe 一歲還有",
+        "Chloe 已經一歲了！🎉"
+      );
+
+      updateCountdown(
+        thirdBirthday,
+        "threeYearDays",
+        "threeYearHours",
+        "threeYearMinutes",
+        "threeYearSeconds",
+        "threeYearLabel",
+        "距離三歲讀幼稚園還有",
+        "Chloe 三歲了，開心上幼稚園！🎒"
+      );
+    }
+
+    updatePage();
+    setInterval(updatePage, 1000);
+  </script>
+</body>
+</html>
